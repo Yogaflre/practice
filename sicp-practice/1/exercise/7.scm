@@ -13,7 +13,6 @@
 (define (improve guess x) 
   (/ (+ guess (/ x guess)) 2))
 
-; TODO improve "good-enough?"
 (define (good-enough? guess x)
   (< (abs (- (square guess) x)) 0.001))
 
