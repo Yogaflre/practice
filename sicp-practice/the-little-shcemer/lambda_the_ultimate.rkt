@@ -1,3 +1,6 @@
+#lang racket
+
+
 ; 柯里化(currying)
 (define eq?-c (lambda (a)
 				(lambda (x)
@@ -7,7 +10,7 @@
 ; 实现删除第一个元素(currying)
 (define rember-f (lambda (test?)
 				   (lambda (a l)
-					 (cond ((null? l) ())
+					 (cond ((null? l) '())
 						   ((test? a (car l)) (cdr l))
 						   (else (cons (car l)
 									   ((rember-f test?) a (cdr l))))))))
@@ -18,7 +21,7 @@
 (define lat (list "B" "B" "C"))
 ; 公共方法: 前置/后置/替换旧元素(currying)
 (define insert-f (lambda (build new old l)
-					(cond ((null? l) ())
+					(cond ((null? l) '())
 						  ((list? (car l)) (cons (insert-f build new old (car l)) (insert-f build new old (cdr l))))
 						  (else (cond ((equal? old (car l)) (build new old (insert-f build new old (cdr l))))
 									  (else (cons (car l) (insert-f build new old (cdr l)))))))))
@@ -61,7 +64,7 @@
 ; 利用函数抽象重写value方法
 (define (value x)
   (cond ((atom? x) (cond ((numbered? x) x)
-						 (else ())))
+						 (else '())))
 		(else ((atom-to-func (operator x)) (1nd-sub-exp x) (2nd-sub-exp x)))))
 (value (list "+" 1 2))
 
@@ -69,7 +72,7 @@
 
 ; 将new插入到oldL的左边和oldR的右边(oldL和oldR是不同原子)
 (define (multiinsertLR new oldL oldR lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		((equal? oldL (car lat)) (seqL new oldL (multiinsertLR new oldL oldR (cdr lat))))
 		((equal? oldR (car lat)) (seqR new oldR (multiinsertLR new oldL oldR (cdr lat))))
 		(else (cons (car lat) (multiinsertLR new oldL oldR lat)))))
@@ -80,7 +83,7 @@
   (+ x 1))
 ; 划重点: 比multiinsertLR多传一个col函数，用于统计左右各插入了多少次
 (define (multiinsertLR&co new oldL oldR lat col)
-  (cond ((null? lat) (col () 0 0))
+  (cond ((null? lat) (col '() 0 0))
 		((equal? (car lat) oldL) (multiinsertLR&co new oldL oldR (cdr lat)
 												   (lambda (newlat L R)
 													 (col (seqL new oldL newlat) (add1 L) R))))
@@ -99,7 +102,7 @@
 ; 移除所有的奇数
 (define l (list (list 1 2) 3 (list 4 5)))
 (define (evens-only* l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		((atom? (car l)) (cond ((even? (car l)) (cons (car l) (evens-only* (cdr l))))
 							   (else (evens-only* (cdr l)))))
 		(else (cons (evens-only* (car l)) (evens-only* (cdr l))))))
@@ -107,7 +110,7 @@
 
 ; 增加collecotr函数分别收集奇偶数
 (define (evens-only*&co l col)
-  (cond ((null? l) (col () ()))
+  (cond ((null? l) (col '() '()))
 		((atom? (car l)) (cond ((even? (car l)) (evens-only*&co (cdr l) (lambda (O E) (col O (cons (car l) E)))))
 							   (else (evens-only*&co (cdr l) (lambda (O E) (col (cons (car l) O) E))))))
 		(else (evens-only*&co (car l) (lambda (O1 E1)

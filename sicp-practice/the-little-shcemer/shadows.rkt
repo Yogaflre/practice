@@ -1,3 +1,5 @@
+#lang racket
+
 ; 判断x是否为原子
 (define (atom? x)
   (and (not (pair? x)) (not (null? x))))
@@ -23,7 +25,7 @@
 ; 计算算数表达式的值
 (define (value x)
   (cond ((atom? x) (cond ((numbered? x) x)
-						 (else ())))
+						 (else '())))
 		((equal? (operator x) "+") (+ (1nd-sub-exp x)
 								 	  (2nd-sub-exp x)))
 		((equal? (operator x) "*") (* (1nd-sub-exp x)
@@ -32,12 +34,12 @@
 								 		 (2nd-sub-exp x)))))
 (value (list "+" 1 2))
 
-; 数字表示法：使用()来表示0 (())表示1 (() ())表示2 以此类推
+; 数字表示法：使用'()来表示0 ('())表示1 ('() '())表示2 以此类推
 (define (sero? n)
   (null? n))
 
 (define (edd1 n)
-  (cons () n))
+  (cons '() n))
 
 (define (zub1 n)
   (cdr n))
@@ -45,4 +47,4 @@
 (define (+* m n)
   (cond ((sero? m) n)
 		(else (edd1 (+* (zub1 m) n)))))
-(+* (list ()) (list () ()))
+(+* (list '()) (list '() '()))

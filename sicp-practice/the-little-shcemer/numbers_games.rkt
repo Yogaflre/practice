@@ -1,11 +1,10 @@
+#lang racket
+
 ; 定义递增、递减和判断是否为0的函数
 (define (add1 x)
   (+ x 1))
 (define (sub1 x)
   (- x 1))
-(define zero? (x)
-  (= x 0))
-
 
 
 
@@ -88,13 +87,13 @@
 
 ; 获取lat中第n个元素
 (define (pick n lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		(else (cond ((o= n 0) (car lat))
 					(else (pick (sub1 n) (cdr lat)))))))
 
 ; 删除lat中的第n个元素
 (define (rempick n lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		(else (cond ((o= n 0) (cdr lat))
 					(else (cons (car lat) (rempick (sub1 n) (cdr lat))))))))
 
@@ -103,13 +102,13 @@
 
 ; 移除原列表中的所有数字(借用number?函数)
 (define (no-nums lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		(else (cond ((number? (car lat)) (no-nums (cdr lat)))
 					(else (cons (car lat) (no-nums (cdr lat))))))))
 
 ; 保留列表中所有数字
 (define (all-nums lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		(else (cond ((number? (car lat)) (cons (car lat) (all-nums (cdr lat))))
 					(else (all-nums (cdr lat)))))))
 

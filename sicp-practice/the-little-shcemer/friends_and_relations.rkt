@@ -1,3 +1,5 @@
+#lang racket
+
 ; 检测a是否在l中(its_full_of_stars.scm)
 (define (member? a l)
   (cond ((null? l) false)
@@ -18,7 +20,7 @@
 
 ; 将list变为set
 (define (makeset lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		((member? (car lat) (cdr lat)) (makeset (cdr lat)))
 		(else (cons (car lat) (makeset (cdr lat))))))
 (makeset test-lat)
@@ -26,13 +28,13 @@
 
 ; 移除lat中的所有a
 (define (multirember a lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		((equal? a (car lat)) (multirember a (cdr lat)))
 		(else (cons (car lat) (multirember a (cdr lat))))))
 
 ; 使用multirember实现makeset
 (define (makeset2 lat)
-  (cond ((null? lat) ())
+  (cond ((null? lat) '())
 		(else (cons (car lat)
 					(makeset2 (multirember (car lat) (cdr lat)))))))
 (makeset2 test-lat)
@@ -62,7 +64,7 @@
 
 ; 取两个set交集
 (define (intersect set1 set2)
-  (cond ((null? set1) ())
+  (cond ((null? set1) '())
 		((member? (car set1) set2) (cons (car set1) (intersect (cdr set1) set2)))
 		(else (intersect (cdr set1) set2))))
 (intersect (list "stewed" "tomatoes" "and" "macaroni") (list "macaroni" "and" "cheese"))
@@ -76,7 +78,7 @@
 
 ; 返回所有set1存在，set2不存在的元素
 (define (xxx set1 set2)
-  (cond ((null? set1) ())
+  (cond ((null? set1) '())
 		((member? (car set1) set2) (xxx (cdr set1) set2))
 		(else (cons (car set1) (xxx (cdr set1) set2)))))
 (xxx (list "macaroni" "and" "cheese") (list "stewed" "tomatoes" "and" "macaroni" "casserole"))
@@ -103,7 +105,7 @@
 
 ; 取每个集合中的第一个元素
 (define (firsts l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		(else (cons (car (car l))
 					 (firsts (cdr l))))))
 (firsts (list (list "a" "b") (list "c" "d") (list "e" "f")))
@@ -118,7 +120,7 @@
 
 ; 反转rel中的每个parl
 (define (revrel rel)
-  (cond ((null? rel) ())
+  (cond ((null? rel) '())
 		(else (cons (revpair (car rel))
 					(revrel (cdr rel))))))
 (revrel (list (list 8 "a") (list "pumpkin" "pie") (list "got" "sick")))

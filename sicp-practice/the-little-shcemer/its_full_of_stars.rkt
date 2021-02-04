@@ -1,3 +1,5 @@
+#lang racket
+
 ; test example
 (define test (list (list "how" "much" (list "wood"))
 				   "could"
@@ -9,7 +11,7 @@
 
 ; 删除l中的a元素
 (define (rember* a l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		((list? (car l)) (cons (rember* a (car l)) (rember* a (cdr l))))
 		(else (cond ((equal? a (car l)) (rember* a (cdr l)))
 					(else (cons (car l) (rember* a (cdr l))))))))
@@ -17,7 +19,7 @@
 
 ; 在old后面添加new元素
 (define (insertR* new old l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		((list? (car l)) (cons (insertR* new old (car l)) (insertR* new old (cdr l))))
 		(else (cond ((equal? old (car l)) (cons old (cons new (insertR* new old (cdr l)))))
 					(else (cons (car l) (insertR* new old (cdr l))))))))
@@ -25,7 +27,7 @@
 
 ; 在old前面添加new元素
 (define (insertL* new old l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		((list? (car l)) (cons (insertL* new old (car l)) (insertL* new old (cdr l))))
 		(else (cond ((equal? old (car l)) (cons new (cons old (insertL* new old (cdr l)))))
 					(else (cons (car l) (insertL* new old (cdr l))))))))
@@ -41,7 +43,7 @@
 
 ; 用new替换old
 (define (subst* new old l)
-  (cond ((null? l) ())
+  (cond ((null? l) '())
 		((list? (car l)) (cons (subst* new old (car l)) (subst* new old (cdr l))))
 		(else (cond ((equal? (car l) old) (cons new (subst* new old (cdr l))))
 					(else (cons (car l) (subst* new old (cdr l))))))))
